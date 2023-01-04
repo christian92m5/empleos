@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Borrando</title>
 </head>
 <body>
-  <h1>Formulario de Creación de Categorias</h1>
+    <h1>Creación de Categorias</h1>
 
+    <form th:action="@{/categorias/save}" method="post">
+        <label for="idNombre">Nombre:</label><br>
+        <input type="text" id="idNombre" name="nombre"><br>
+        <label for="idDescripcion">Descripción:</label><br>
+        <input type="text" id="idDescripcion" name="descripcion"><br><br>
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
