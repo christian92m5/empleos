@@ -26,7 +26,7 @@ public class VacantesServiceImpl implements IVacantesService{
             vacante1.setFecha(sdf.parse("01-01-2023"));
             vacante1.setSalario(14000.0);
             vacante1.setDestacado(1);
-            vacante1.setImagen("empresa1.png");
+            vacante1.setImagen("logo1.png");
 
             var vacante2 = new Vacante();
             vacante2.setId(2);
@@ -35,7 +35,7 @@ public class VacantesServiceImpl implements IVacantesService{
             vacante2.setFecha(sdf.parse("05-12-2022"));
             vacante2.setSalario(12000.0);
             vacante2.setDestacado(0);
-            vacante2.setImagen("empresa2.png");
+            vacante2.setImagen("logo2.png");
 
 
             var vacante3 = new Vacante();
@@ -53,7 +53,7 @@ public class VacantesServiceImpl implements IVacantesService{
             vacante4.setFecha(sdf.parse("29-11-2022"));
             vacante4.setSalario(7500.0);
             vacante4.setDestacado(1);
-            vacante4.setImagen("empresa3.png");
+            vacante4.setImagen("logo3.png");
 
 
             listado.add(vacante1);
