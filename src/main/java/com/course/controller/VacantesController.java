@@ -49,7 +49,7 @@ public class VacantesController {
 
         vacantesService.guardar(vacante);
 
-        return "vacantes/listVacantes";
+        return "redirect:/vacantes/index";
     }
 
     @GetMapping("/delete")
