@@ -19,7 +19,14 @@ public class VacantesController {
     @Autowired
     private IVacantesService vacantesService;
 
-    
+    @GetMapping("/index")
+    public String mostrarIndex(Model model){
+        var listado = vacantesService.buscarTodas();
+
+        model.addAttribute("vacantes", listado);
+
+        return "vacantes/listVacantes";
+    }
 
     @GetMapping("/create")
     public String crear(){
