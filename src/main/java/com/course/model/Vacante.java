@@ -17,6 +17,8 @@ public class Vacante {
 
     private String detalles;
 
+    private Categoria categoria;
+
     public Integer getId() {
         return id;
     }
@@ -89,6 +91,14 @@ public class Vacante {
         this.detalles = detalles;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
     @Override
     public String toString() {
         return "Vacante{" +
@@ -101,6 +111,7 @@ public class Vacante {
                 ", imagen='" + imagen + '\'' +
                 ", status='" + status + '\'' +
                 ", detalles='" + detalles + '\'' +
+                ", categoria=" + categoria +
                 '}';
     }
 }
