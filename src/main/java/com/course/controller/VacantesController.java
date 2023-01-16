@@ -3,6 +3,7 @@ package com.course.controller;
 import com.course.model.Vacante;
 import com.course.service.ICategoriasService;
 import com.course.service.IVacantesService;
+import com.course.util.Utileria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.SimpleDateFormat;
@@ -46,7 +48,9 @@ public class VacantesController {
     }
 
     @PostMapping("/save")
-    public String guardar(Vacante vacante, BindingResult bindingResult, RedirectAttributes attributes ){
+    public String guardar(Vacante vacante, BindingResult bindingResult, RedirectAttributes attributes,
+                          @RequestParam("archivoImagen") MultipartFile multiPart
+                          ){
         if(bindingResult.hasErrors()){
             for(var error: bindingResult.getAllErrors()){
                 System.out.println("Ocurrio un error: "+ error.getDefaultMessage());
@@ -54,6 +58,18 @@ public class VacantesController {
             }
             return "vacantes/formVacante";
         }
+
+        if (!multiPart.isEmpty()) {
+            //String ruta = "/empleos/img-vacantes/"; // Linux/MAC
+            String ruta = "/Users/christianguaman/Desktop/empleos/img-vacantes/"; // Windows
+            String nombreImagen = Utileria.guardarArchivo(multiPart, ruta);
+            if (nombreImagen != null){ // La imagen si se subio
+                // Procesamos la variable nombreImagen
+                vacante.setImagen(nombreImagen);
+            }
+        }
+
+
         System.out.println("vacante in: "+ vacante);
 
         attributes.addFlashAttribute("msg", "Registro guardado");
