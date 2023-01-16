@@ -1,6 +1,7 @@
 package com.course.controller;
 
 import com.course.model.Vacante;
+import com.course.service.ICategoriasService;
 import com.course.service.IVacantesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -21,6 +22,10 @@ public class VacantesController {
     @Autowired
     private IVacantesService vacantesService;
 
+    @Autowired
+    private ICategoriasService categoriasService;
+
+
     @GetMapping("/index")
     public String mostrarIndex(Model model){
         var listado = vacantesService.buscarTodas();
@@ -32,8 +37,11 @@ public class VacantesController {
 
     @GetMapping("/create")
     public String crear(
-            Vacante vacante
+            Vacante vacante,
+            Model model
     ){
+        var categorias = categoriasService.buscarTodas();
+        model.addAttribute("categorias", categorias);
         return "vacantes/formVacante";
     }
 
