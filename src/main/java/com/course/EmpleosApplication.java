@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,9 +33,13 @@ public class EmpleosApplication implements CommandLineRunner {
 		//encontrarPorIds();
 		//buscarTodas();
 		//existeId();
-		guardarTodas();
-		buscarTodas();
-
+		//guardarTodas();
+		//buscarTodas();
+		//findTodosJpa();
+		//borrarTodoEnBloque();
+		//buscarTodasOrdenadas();
+		//buscarTodasPaginable();
+		buscarTodasPaginableOrdenada();
 	}
 	private void guardar(){
 		var cat1 = new Categoria();
@@ -126,5 +132,43 @@ public class EmpleosApplication implements CommandLineRunner {
 		lista.add(cat2);
 		lista.add(cat3);
 		return lista;
+	}
+
+	private void findTodosJpa(){
+		var categorias = categoriasRepository.findAll();
+		for (var cat : categorias){
+			System.out.println("Categoria encontrada: "+ cat.getId()+" "+ cat.getNombre());
+		}
+	}
+
+	private void borrarTodoEnBloque(){
+		categoriasRepository.deleteAllInBatch();
+	}
+
+	private void buscarTodasOrdenadas(){
+		var categorias = categoriasRepository.findAll(Sort.by("nombre").descending());
+		for (var cat : categorias){
+			System.out.println("Categoria encontrada: "+ cat);
+		}
+	}
+
+	private void buscarTodasPaginable(){
+		var categorias = categoriasRepository.findAll(PageRequest.of(0,5));
+		System.out.println("Total registros: "+categorias.getTotalElements());
+		System.out.println("Total paginas: "+categorias.getTotalPages());
+
+		for (var cat : categorias.getContent()){
+			System.out.println("Categoria encontrada: "+ cat.getId()+" "+ cat.getNombre());
+		}
+	}
+
+	private void buscarTodasPaginableOrdenada(){
+		var categorias = categoriasRepository.findAll(PageRequest.of(1,5, Sort.by("nombre").descending()));
+		System.out.println("Total registros: "+categorias.getTotalElements());
+		System.out.println("Total paginas: "+categorias.getTotalPages());
+
+		for (var cat : categorias.getContent()){
+			System.out.println("Categoria encontrada: "+ cat.getId()+" "+ cat.getNombre());
+		}
 	}
 }
