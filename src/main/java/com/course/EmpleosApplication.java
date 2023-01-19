@@ -61,7 +61,11 @@ public class EmpleosApplication implements CommandLineRunner {
 		//guardarVacante();
 		//guardarPerfiles();
 		//crearUsuarioConPerfiles();
-		buscarUsuario();
+		//buscarUsuario();
+		//buscarVacantesPorEstatus();
+		//buscarVacantesPorDesatacadoYEstatus();
+		//buscarVacantesSalario();
+		buscarVacantePorVariosEstatus();
 	}
 	private void guardar(){
 		var cat1 = new Categoria();
@@ -276,5 +280,45 @@ public class EmpleosApplication implements CommandLineRunner {
 				});
 
 
+	}
+
+	private void buscarVacantesPorEstatus(){
+
+		var res = vacantesRepository.findByEstatus("Aprobada");
+		System.out.println("VACANTES ENCONTRADOS: "+ res.size());
+
+		for (var v : res){
+			System.out.println("Vacante: "+ v.getId()+" "+ v.getNombre()+ " "+ v.getEstatus());
+		}
+	}
+
+	private void buscarVacantesPorDesatacadoYEstatus(){
+
+		var res = vacantesRepository.findByDestacadoAndEstatusOrderByIdDesc(1,"Aprobada");
+		System.out.println("VACANTES ENCONTRADOS: "+ res.size());
+
+		for (var v : res){
+			System.out.println("Vacante: "+ v.getId()+" "+ v.getNombre()+ " "+ v.getEstatus()+ " "+ v.getDestacado());
+		}
+	}
+
+	private void buscarVacantesSalario(){
+
+		var res = vacantesRepository.findBySalarioBetweenOrderBySalarioDesc(7000.0,14000.0);
+		System.out.println("VACANTES ENCONTRADOS: "+ res.size());
+
+		for (var v : res){
+			System.out.println("Vacante: "+ v.getId()+" "+ v.getNombre()+ " "+ v.getSalario());
+		}
+	}
+
+	private void buscarVacantePorVariosEstatus(){
+
+		var res = vacantesRepository.findByEstatusIn(List.of("Eliminada","Creada"));
+		System.out.println("VACANTES ENCONTRADOS: "+ res.size());
+
+		for (var v : res){
+			System.out.println("Vacante: "+ v.getId()+" "+ v.getNombre()+ " "+ v.getEstatus());
+		}
 	}
 }
