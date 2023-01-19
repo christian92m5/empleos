@@ -4,11 +4,13 @@ import com.course.model.Categoria;
 import com.course.repository.CategoriasRepository;
 import com.course.service.ICategoriasService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Primary
 public class CategoriasServiceJpa implements ICategoriasService {
 
     @Autowired
