@@ -1,8 +1,13 @@
 package com.course.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name="Vacantes")
 public class Vacante {
+    @Id
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Integer id;
     private String nombre;
     private String descripcion;
@@ -13,10 +18,13 @@ public class Vacante {
 
     private String imagen = "no-image.png";
 
-    private String status;
+    private String estatus;
 
     private String detalles;
 
+    //@Transient //Esto permite que se ignore el campo.
+    @OneToOne
+    @JoinColumn(name = "idCategoria")
     private Categoria categoria;
 
     public Integer getId() {
@@ -75,12 +83,12 @@ public class Vacante {
         this.imagen = imagen;
     }
 
-    public String getStatus() {
-        return status;
+    public String getEstatus() {
+        return estatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setEstatus(String estatus) {
+        this.estatus = estatus;
     }
 
     public String getDetalles() {
@@ -109,7 +117,7 @@ public class Vacante {
                 ", salario=" + salario +
                 ", destacado=" + destacado +
                 ", imagen='" + imagen + '\'' +
-                ", status='" + status + '\'' +
+                ", estatus='" + estatus + '\'' +
                 ", detalles='" + detalles + '\'' +
                 ", categoria=" + categoria +
                 '}';

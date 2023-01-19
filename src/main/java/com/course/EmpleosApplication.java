@@ -2,7 +2,13 @@ package com.course;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 import com.course.model.Categoria;
+import com.course.model.Perfil;
+import com.course.model.Usuario;
+import com.course.model.Vacante;
 import com.course.repository.CategoriasRepository;
+import com.course.repository.PerfilesRepository;
+import com.course.repository.UsuariosRepository;
+import com.course.repository.VacantesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +25,16 @@ public class EmpleosApplication implements CommandLineRunner {
 
 	@Autowired
 	private CategoriasRepository categoriasRepository;
+
+	@Autowired
+	private VacantesRepository vacantesRepository;
+
+	@Autowired
+	private UsuariosRepository usuariosRepository;
+
+	@Autowired
+	private PerfilesRepository perfilesRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EmpleosApplication.class, args);
 	}
@@ -39,7 +56,12 @@ public class EmpleosApplication implements CommandLineRunner {
 		//borrarTodoEnBloque();
 		//buscarTodasOrdenadas();
 		//buscarTodasPaginable();
-		buscarTodasPaginableOrdenada();
+		//buscarTodasPaginableOrdenada();
+		//buscarVacantes();
+		//guardarVacante();
+		//guardarPerfiles();
+		//crearUsuarioConPerfiles();
+		buscarUsuario();
 	}
 	private void guardar(){
 		var cat1 = new Categoria();
@@ -170,5 +192,89 @@ public class EmpleosApplication implements CommandLineRunner {
 		for (var cat : categorias.getContent()){
 			System.out.println("Categoria encontrada: "+ cat.getId()+" "+ cat.getNombre());
 		}
+	}
+
+	private void buscarVacantes(){
+		var vacantes = vacantesRepository.findAll();
+		for (var vac : vacantes){
+			System.out.println("Vacante encontrada: "+ vac.getId()+" "+ vac.getNombre()+ " categoria: "+vac.getCategoria().getNombre());
+		}
+	}
+
+	private void guardarVacante(){
+		Vacante vacante = new Vacante();
+		vacante.setNombre("Profesor de Matematicas");
+		vacante.setDescripcion("Escuela primaria solicita profesor para curso de Matematicas");
+		vacante.setFecha(new Date());
+		vacante.setSalario(8500.0);
+		vacante.setEstatus("Aprobada");
+		vacante.setDestacado(0);
+		vacante.setImagen("escuela.png");
+		vacante.setDetalles("<h1>Los requisitos para profesor de Matematicas</h1>");
+		Categoria cat = new Categoria();
+		cat.setId(15);
+		vacante.setCategoria(cat);
+		vacantesRepository.save(vacante);
+	}
+
+	private void guardarPerfiles(){
+		perfilesRepository.saveAll(getPerfilesAplicacion());
+	}
+
+	/**
+	 * Metodo que regresa una lista de objetos de tipo Perfil que representa los diferentes PERFILES
+	 * O ROLES que tendremos en nuestra aplicación de Empleos
+	 * @return
+	 */
+	private List<Perfil> getPerfilesAplicacion(){
+		var lista = new LinkedList<Perfil>();
+		var per1 = new Perfil();
+		per1.setPerfil("SUPERVISOR");
+
+		var per2 = new Perfil();
+		per2.setPerfil("ADMINISTRADOR");
+
+		var per3 = new Perfil();
+		per3.setPerfil("USUARIO");
+
+		lista.add(per1);
+		lista.add(per2);
+		lista.add(per3);
+
+		return lista;
+	}
+
+	private void crearUsuarioConPerfiles(){
+		var u = new Usuario();
+		u.setNombre("Christian Guamán");
+		u.setEmail("chri@l.es");
+		u.setFechaRegistro(new Date());
+		u.setUsername("chris");
+		u.setPassword("1234");
+		u.setEstatus(1);
+
+		var p = new Perfil();
+		p.setId(2);
+
+		var p2 = new Perfil();
+		p2.setId(3);
+
+		u.agregar(p);
+		u.agregar(p2);
+
+		usuariosRepository.save(u);
+	}
+
+	private void buscarUsuario(){
+		usuariosRepository.findById(1)
+				.ifPresent( u ->{
+					System.out.println("Usuario encontrada: "+ u.getId()+" "+ u.getNombre());
+
+					for (var p : u.getPerfiles()){
+						System.out.println("Perfil: "+ p.getId()+" "+ p.getPerfil());
+					}
+				});
+
+
 	}
 }
