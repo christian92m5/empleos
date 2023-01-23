@@ -5,6 +5,7 @@ import com.course.service.ICategoriasService;
 import com.course.service.IVacantesService;
 import com.course.util.Utileria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ public class VacantesController {
     private IVacantesService vacantesService;
 
     @Autowired
+    @Qualifier("categoriasServiceJpa")
     private ICategoriasService categoriasService;
 
     @Value("${empleosapp.ruta.imagenes}")
