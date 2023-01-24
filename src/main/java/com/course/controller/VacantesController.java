@@ -48,8 +48,7 @@ public class VacantesController {
             Vacante vacante,
             Model model
     ){
-        var categorias = categoriasService.buscarTodas();
-        model.addAttribute("categorias", categorias);
+
         return "vacantes/formVacante";
     }
 
@@ -101,6 +100,24 @@ public class VacantesController {
         return "detalle";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editar(@PathVariable("id") int idVacante, Model model){
+
+        var vacante = vacantesService.buscarPorId(idVacante);
+
+        model.addAttribute("vacante", vacante);
+
+
+        return "vacantes/formVacante";
+    }
+
+    @ModelAttribute
+    public void setGenericos(Model model){
+
+        var categorias = categoriasService.buscarTodas();
+        model.addAttribute("categorias", categorias);
+
+    }
 
 
     @InitBinder
