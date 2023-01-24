@@ -86,4 +86,9 @@ public class VacantesServiceImpl implements IVacantesService{
     public void guardar(Vacante vacante) {
         listado.add(vacante);
     }
+
+    @Override
+    public List<Vacante> buscarDestacadas() {
+        return null;
+    }
 }

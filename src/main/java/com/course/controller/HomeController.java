@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 
 import java.util.Date;
@@ -52,13 +53,16 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String showHome(Model model){
-
-        var vacantes = vacantesService.buscarTodas();
-
-        model.addAttribute("vacantes", vacantes);
+    public String showHome(){
 
         return "home";
+    }
+
+    @ModelAttribute
+    public void setGenericos(Model model){
+
+        model.addAttribute("vacantes", vacantesService.buscarDestacadas());
+
     }
 
 
