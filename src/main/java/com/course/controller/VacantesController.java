@@ -84,11 +84,12 @@ public class VacantesController {
         return "redirect:/vacantes/index";
     }
 
-    @GetMapping("/delete")
-    public String eliminarVacante(@RequestParam("id") int idVacante, Model model ){
+    @GetMapping("/delete/{id}")
+    public String eliminarVacante(@PathVariable("id") int idVacante, RedirectAttributes redirectAttributes ){
         System.out.println("Borrando la vacante: "+ idVacante);
-        model.addAttribute("idVacante",idVacante);
-        return "mensaje";
+        vacantesService.eliminar(idVacante);
+        redirectAttributes.addFlashAttribute("msg", "La vacante ha sido eliminado");
+        return "redirect:/vacantes/index";
     }
 
     @GetMapping("/view/{id}")
@@ -99,6 +100,8 @@ public class VacantesController {
         model.addAttribute("vacante", v);
         return "detalle";
     }
+
+
 
     @InitBinder
     public void initBinder(WebDataBinder webDataBinder) {
