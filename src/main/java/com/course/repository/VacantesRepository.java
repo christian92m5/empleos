@@ -1,8 +1,7 @@
 package com.course.repository;
 
 import com.course.model.Vacante;
-import org.springframework.data.domain.DomainEvents;
-import org.springframework.data.domain.Example;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

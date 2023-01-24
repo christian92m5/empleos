@@ -24,6 +24,7 @@ import java.util.Date;
 public class VacantesController {
 
     @Autowired
+    @Qualifier("vacantesServiceJpa")
     private IVacantesService vacantesService;
 
     @Autowired

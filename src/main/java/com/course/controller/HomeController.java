@@ -3,6 +3,7 @@ package com.course.controller;
 import com.course.model.Vacante;
 import com.course.service.IVacantesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import java.util.LinkedList;
 public class HomeController {
 
     @Autowired
+    @Qualifier("vacantesServiceJpa")
     private IVacantesService vacantesService;
 
     @GetMapping("/tabla")
