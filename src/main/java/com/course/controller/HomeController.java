@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -102,7 +103,11 @@ public class HomeController {
     @GetMapping("/search")
     public String buscar(@ModelAttribute("search") Vacante vacante, Model model){
         System.out.println("vacante "+vacante);
-        var example = Example.of(vacante);
+
+        var matcher = ExampleMatcher.matching()
+                .withMatcher("descripcion", ExampleMatcher.GenericPropertyMatchers.contains());
+
+        var example = Example.of(vacante, matcher);
         var vacantes = vacantesService.buscarByExample(example);
         model.addAttribute("vacantes", vacantes);
         return "home";
