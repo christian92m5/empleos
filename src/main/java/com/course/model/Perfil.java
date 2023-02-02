@@ -31,6 +31,15 @@ public class Perfil {
 		this.perfil = perfil;
 	}
 
+	public Perfil(Integer id, String perfil) {
+		this.id = id;
+		this.perfil = perfil;
+	}
+
+	public Perfil() {
+
+	}
+
 	@Override
 	public String toString() {
 		return "Perfil [id=" + id + ", perfil=" + perfil + "]";
