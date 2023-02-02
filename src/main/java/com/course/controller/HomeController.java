@@ -1,8 +1,8 @@
 package com.course.controller;
 
-import com.course.model.Perfil;
 import com.course.model.Usuario;
 import com.course.model.Vacante;
+import com.course.service.ICategoriasService;
 import com.course.service.IUsuariosService;
 import com.course.service.IVacantesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,10 @@ public class HomeController {
     @Autowired
     @Qualifier("vacantesServiceJpa")
     private IVacantesService vacantesService;
+
+    @Autowired
+    @Qualifier("categoriasServiceJpa")
+    private ICategoriasService categoriasService;
 
     @Autowired
     private IUsuariosService usuariosService;
@@ -91,10 +95,20 @@ public class HomeController {
         return "redirect:/usuarios/index";
     }
 
+    @GetMapping("/search")
+    public String buscar(@ModelAttribute("search") Vacante vacante){
+        vacante.reset();
+        System.out.println("vacante "+vacante);
+
+        return "home";
+    }
     @ModelAttribute
     public void setGenericos(Model model){
-
+        var vacanteSearch = new Vacante();
         model.addAttribute("vacantes", vacantesService.buscarDestacadas());
+        model.addAttribute("categorias", categoriasService.buscarTodas());
+        model.addAttribute("search", vacanteSearch);
+
 
     }
 
