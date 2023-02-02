@@ -4,6 +4,7 @@ import com.course.model.Vacante;
 import com.course.repository.VacantesRepository;
 import com.course.service.IVacantesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,5 +40,10 @@ public class VacantesServiceJpa implements IVacantesService {
 
         vacantesRepository.deleteById(idVacante);
 
+    }
+
+    @Override
+    public List<Vacante> buscarByExample(Example<Vacante> example) {
+        return vacantesRepository.findAll(example);
     }
 }

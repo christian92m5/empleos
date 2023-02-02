@@ -7,10 +7,14 @@ import com.course.service.IUsuariosService;
 import com.course.service.IVacantesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -96,15 +100,23 @@ public class HomeController {
     }
 
     @GetMapping("/search")
-    public String buscar(@ModelAttribute("search") Vacante vacante){
-        vacante.reset();
+    public String buscar(@ModelAttribute("search") Vacante vacante, Model model){
         System.out.println("vacante "+vacante);
-
+        var example = Example.of(vacante);
+        var vacantes = vacantesService.buscarByExample(example);
+        model.addAttribute("vacantes", vacantes);
         return "home";
     }
+
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder){
+        webDataBinder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+
     @ModelAttribute
     public void setGenericos(Model model){
         var vacanteSearch = new Vacante();
+        vacanteSearch.reset();
         model.addAttribute("vacantes", vacantesService.buscarDestacadas());
         model.addAttribute("categorias", categoriasService.buscarTodas());
         model.addAttribute("search", vacanteSearch);
