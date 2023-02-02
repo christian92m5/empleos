@@ -35,4 +35,9 @@ public class CategoriaServiceImpl implements ICategoriasService{
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public void eliminar(Integer idCategoria) {
+
+    }
 }
