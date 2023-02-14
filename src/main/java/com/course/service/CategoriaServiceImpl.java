@@ -1,6 +1,8 @@
 package com.course.service;
 
 import com.course.model.Categoria;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -25,6 +27,11 @@ public class CategoriaServiceImpl implements ICategoriasService{
     @Override
     public List<Categoria> buscarTodas() {
         return categorias;
+    }
+
+    @Override
+    public Page<Categoria> buscarTodas(Pageable page) {
+        return null;
     }
 
     @Override

@@ -4,6 +4,8 @@ import com.course.model.Categoria;
 import com.course.repository.CategoriasRepository;
 import com.course.service.ICategoriasService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +25,11 @@ public class CategoriasServiceJpa implements ICategoriasService {
     @Override
     public List<Categoria> buscarTodas() {
         return categoriasRepository.findAll();
+    }
+
+    @Override
+    public Page<Categoria> buscarTodas(Pageable page) {
+        return categoriasRepository.findAll(page);
     }
 
     @Override
