@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,12 +39,23 @@ public class HomeController {
     @Autowired
     private IUsuariosService usuariosService;
 
+
+    @GetMapping("/index")
+    public String mostrarIndex(Authentication auth){
+       var userName = auth.getName();
+        System.out.println("userName: "+userName);
+        auth.getAuthorities()
+               .forEach( rol -> System.out.println("Rol: "+rol.getAuthority()));
+        return "redirect:/";
+    }
+
     @GetMapping("/tabla")
     public String showTable(Model model){
         var lista = vacantesService.buscarTodas();
         model.addAttribute("vacantes", lista);
         return "tabla";
     }
+
 
     @GetMapping("/detalle")
     public String showDetail(Model model){
