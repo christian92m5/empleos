@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -41,11 +42,21 @@ public class HomeController {
 
 
     @GetMapping("/index")
-    public String mostrarIndex(Authentication auth){
+    public String mostrarIndex(Authentication auth, HttpSession httpSession){
        var userName = auth.getName();
         System.out.println("userName: "+userName);
         auth.getAuthorities()
                .forEach( rol -> System.out.println("Rol: "+rol.getAuthority()));
+
+        if(httpSession.getAttribute("usuario")== null){
+           usuariosService.buscarPorUserName(userName)
+                   .ifPresent(u -> {
+                       u.setPassword("");
+                       httpSession.setAttribute("usuario", u);
+                       System.out.println("user: "+u);
+                   });
+        }
+
         return "redirect:/";
     }
 

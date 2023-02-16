@@ -3,6 +3,7 @@ package com.course.service;
 import com.course.model.Usuario;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IUsuariosService {
 
@@ -21,6 +22,8 @@ public interface IUsuariosService {
 	
 	// Ejercicio: Implementar método que recupera todos los usuarios. Usar vista de listUsuarios.html
 	List<Usuario> buscarTodos();
+
+	Optional<Usuario> buscarPorUserName(String userName);
 }
 
 // Agregar al archivo menu.html el link para acceder al listado de Usuarios y configurar el link del botón Registrarse

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioServiceJpa implements IUsuariosService {
@@ -38,5 +39,10 @@ public class UsuarioServiceJpa implements IUsuariosService {
     @Override
     public List<Usuario> buscarTodos() {
        return usuariosRepository.findAll();
+    }
+
+    @Override
+    public Optional<Usuario> buscarPorUserName(String userName) {
+        return usuariosRepository.findByUsername(userName);
     }
 }
