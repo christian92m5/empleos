@@ -163,6 +163,10 @@ public class HomeController {
         return texto+" Encriptado en BCrypt: "+passwordEncoder.encode(texto);
     }
 
+    @GetMapping("/login" )
+    public String mostrarLogin() {
+        return "formLogin";
+    }
     
 
 
