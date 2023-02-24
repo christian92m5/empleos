@@ -11,14 +11,12 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -39,6 +37,10 @@ public class HomeController {
 
     @Autowired
     private IUsuariosService usuariosService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
 
     @GetMapping("/index")
@@ -116,6 +118,9 @@ public class HomeController {
             return "formRegistro";
         }
 
+        var pwdPlano = usuario.getPassword();
+        var pwdEncriptado = passwordEncoder.encode(pwdPlano);
+        usuario.setPassword(pwdEncriptado);
         usuariosService.guardar(usuario);
 
         attributes.addFlashAttribute("msg", "Usuario creado");
@@ -152,6 +157,11 @@ public class HomeController {
 
     }
 
+    @GetMapping("/bcrypt/{texto}")
+    @ResponseBody
+    public String encriptar(@PathVariable("texto") String texto){
+        return texto+" Encriptado en BCrypt: "+passwordEncoder.encode(texto);
+    }
 
     
 
