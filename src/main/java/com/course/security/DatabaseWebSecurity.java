@@ -51,6 +51,7 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
                         "/vacantes/view/**")
                 .permitAll()
                 // Asignar permisos a URLs por ROLES
+                .antMatchers("/solicitudes/**").hasAnyAuthority("SUPERVISOR","ADMINISTRADOR")
                 .antMatchers("/vacantes/**").hasAnyAuthority("SUPERVISOR","ADMINISTRADOR")
                 .antMatchers("/categorias/**").hasAnyAuthority("SUPERVISOR","ADMINISTRADOR")
                 .antMatchers("/usuarios/**").hasAnyAuthority("ADMINISTRADOR")

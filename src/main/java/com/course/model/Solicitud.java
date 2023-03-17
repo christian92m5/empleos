@@ -16,11 +16,11 @@ public class Solicitud {
     private String comentarios;
 
     @OneToOne
-    @JoinTable(name= "idVacante")
+    @JoinColumn(name= "idVacante")
     private Vacante vacante;
 
     @OneToOne
-    @JoinTable(name= "idUsuario")
+    @JoinColumn(name= "idUsuario")
     private Usuario usuario;
 
 
