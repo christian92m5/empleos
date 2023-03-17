@@ -85,4 +85,12 @@ public class SolicitudesController {
         return "solicitudes/listSolicitudes";
 
     }
+
+    @GetMapping("/delete/{id}")
+    public String eliminar(@PathVariable("id") int idSolicitud, RedirectAttributes attributes){
+
+        solicitudesService.eliminar(idSolicitud);
+        attributes.addFlashAttribute("msg", "La solicitud ha sido elminada");
+        return "redirect:/solicitudes/indexPaginate";
+    }
 }
